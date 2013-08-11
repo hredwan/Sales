@@ -1,4 +1,5 @@
-var result = {};
+var result 	= {},
+	_		= require('underscore');
 
 /************************************************************************************
  |                                                                                  |
@@ -32,6 +33,26 @@ result.collectionMethods = {};
 
 // Initialize the methods object:
 result.methods = {};
+
+result.methods.buy = function buy(products){
+	if(_.isArray(products) && sessionStorage.ID && products.length > 0){
+		var order = new this({
+			customer: sessionStorage.ID,
+			date: new Date()
+		});
+
+		order.save();
+
+		_.each(products, function(prod){
+			new ds.Command({
+				order: order,
+				product: prod.id,
+				quantity: prod.quantity
+			}).save();
+		});
+	}
+}
+result.methods.buy.scope = 'public';
 
 // Export the result object:
 module.exports = result;
