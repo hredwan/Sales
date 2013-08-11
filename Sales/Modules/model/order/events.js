@@ -65,7 +65,11 @@ result.events.onValidate = function on_validate(){
  |                                                                                  |
  ************************************************************************************/
 
-
+result.total = {
+	onGet: function on_get () {
+		return this.commands.sum('total');
+	}
+};
 
 // Export the result object:
 module.exports = result;

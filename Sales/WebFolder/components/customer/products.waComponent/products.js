@@ -109,7 +109,7 @@ function constructor (id) {
 
 	button2.click = function button2_click (event)// @startlock
 	{// @endlock
-		ds.Order.buy($comp.sourcesVar.total);
+		ds.Order.buy($comp.sourcesVar.cart);
 	};// @lock
 
 	cartEvent.onCollectionChange = function cartEvent_onCollectionChange (event)// @startlock

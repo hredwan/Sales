@@ -4,6 +4,7 @@ module.exports = {
 	commands: new Attribute("relatedEntities", "Commands", "order", {
 		"reversePath": true
 	}),
+	total: new Attribute("calculated", "number"),
 	date: new Attribute("storage", "date", null, {
 		"simpleDate": false
 	})

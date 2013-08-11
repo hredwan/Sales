@@ -35,6 +35,7 @@ result.collectionMethods = {};
 result.methods = {};
 
 result.methods.buy = function buy(products){
+	debugger;
 	if(_.isArray(products) && sessionStorage.ID && products.length > 0){
 		var order = new this({
 			customer: sessionStorage.ID,

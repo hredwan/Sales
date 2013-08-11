@@ -43,7 +43,11 @@ result.events = {};
  |                                                                                  |
  ************************************************************************************/
 
-
+result.total = {
+	onGet: function on_get () {
+		return this.quantity*this.product.price;
+	}
+};
 
 // Export the result object:
 module.exports = result;
