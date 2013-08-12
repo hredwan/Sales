@@ -91,7 +91,10 @@ function constructor (id) {
 		    zIndex: 888888
 		});
 		
-		$cart.find('.waf-toolbar-element ').unbind('click').click(function(e){
+		$cart
+		.find('.waf-toolbar')
+		.show()
+		.find('.waf-toolbar-element ').unbind('click').click(function(e){
 			//e.preventDefault();
 			switch($(this).attr('title')){
 				case 'Add':
@@ -105,6 +108,7 @@ function constructor (id) {
 			return false;
 		});
 	// @region namespaceDeclaration// @startlock
+	var dataGrid1 = {};	// @dataGrid
 	var image2 = {};	// @image
 	var button2 = {};	// @button
 	var cartEvent = {};	// @dataSource
@@ -115,6 +119,15 @@ function constructor (id) {
 	// @endregion// @endlock
 
 	// eventHandlers// @lock
+
+	dataGrid1.onRowDblClick = function dataGrid1_onRowDblClick (event)// @startlock
+	{// @endlock
+		sources.product.selectByKey(sources.cart.id, {
+			onSuccess: function(e){
+				_ns.Forms.openDialog('viewProduct');
+			}
+		});
+	};// @lock
 
 	image2.click = function image2_click (event)// @startlock
 	{// @endlock
@@ -198,6 +211,7 @@ function constructor (id) {
 	};// @lock
 
 	// @region eventManager// @startlock
+	WAF.addListener(this.id + "_dataGrid1", "onRowDblClick", dataGrid1.onRowDblClick, "WAF");
 	WAF.addListener(this.id + "_image2", "click", image2.click, "WAF");
 	WAF.addListener(this.id + "_button2", "click", button2.click, "WAF");
 	WAF.addListener("cart", "onCollectionChange", cartEvent.onCollectionChange, "WAF");
