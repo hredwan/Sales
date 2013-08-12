@@ -41,6 +41,8 @@ WAF.onAfterInit = function onAfterInit() {// @lock
 	{// @endlock
 		center('content');
 		center('mainDialog');
+		
+		$$("mainCompo").loadComponent('/components/customer/products.waComponent');
 	};// @lock
 
 // @region eventManager// @startlock

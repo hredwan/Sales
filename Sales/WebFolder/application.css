@@ -759,6 +759,13 @@ body#waf-body .ui-dialog[role=dialog] {
 	transition-timing-fonction: linear;
 }
 
+.waf-theme.default .waf-dataGrid.waf-role-widget .waf-widget-footer,
+.waf-theme.default .waf-dataGrid.waf-role-widget .waf-dataGrid-footer{
+	background-color: rgba(0, 0, 0, 0);
+	background-image: initial;
+	box-shadow: initial;
+}
+
 /**
  * -----------------------------------
  * @subsection widget body scrollbar

@@ -73,6 +73,22 @@ function constructor (id) {
 				cartSource.sync();
 			}
 		}
+		
+		function increment(inc, nb){
+			var position = cartSource.getPosition();
+			
+			nb = nb || 1;
+			
+			if(position >= 0){
+				$comp.sourcesVar.cart[position].quantity += (inc === false?-nb:nb);
+			}
+			
+			if($comp.sourcesVar.cart[position].quantity <= 0){
+				cartSource.removeCurrent();
+			}
+			
+			cartSource.sync();
+		}
 				
 		$cart.droppable({
 		    drop: function(){
@@ -95,13 +111,26 @@ function constructor (id) {
 		    helper: "clone",
 		    zIndex: 888888
 		});
+		
+		$cart.find('.waf-toolbar-element ').unbind('click').click(function(e){
+			//e.preventDefault();
+			switch($(this).attr('title')){
+				case 'Add':
+					increment();
+					break;
+				case 'Delete':
+					increment(false);
+					break;
+			}
+			
+			return false;
+		});
 	// @region namespaceDeclaration// @startlock
 	var button2 = {};	// @button
 	var cartEvent = {};	// @dataSource
 	var container4 = {};	// @container
 	var button1 = {};	// @button
 	var combobox1 = {};	// @combobox
-	var image2 = {};	// @image
 	var matrix1 = {};	// @matrix
 	// @endregion// @endlock
 
@@ -109,7 +138,21 @@ function constructor (id) {
 
 	button2.click = function button2_click (event)// @startlock
 	{// @endlock
-		ds.Order.buy($comp.sourcesVar.cart);
+		debugger;
+		if(waf.directory.currentUserBelongsTo('customer')){
+			if(ds.Order.buy($comp.sourcesVar.cart)){
+				$comp.sourcesVar.cart = [];
+				$comp.sources.cart.sync();
+				
+				alert('Your order has been registered!');
+			}
+			else{
+				alert('An error has occured while registring the order!');
+			}
+		}
+		else{
+			$$('login1').showLoginDialog();
+		}
 	};// @lock
 
 	cartEvent.onCollectionChange = function cartEvent_onCollectionChange (event)// @startlock
@@ -121,11 +164,18 @@ function constructor (id) {
 		
 		$comp.sourcesVar.total = total + ' $';
 		$comp.sources.total.sync();
+		
+		if($comp.sourcesVar.cart.length == 0){
+			getHtmlObj('button2').hide();
+		}
+		else{
+			getHtmlObj('button2').show();
+		}
 	};// @lock
 
 	container4.dblclick = function container4_dblclick (event)// @startlock
 	{// @endlock
-		_ns.Forms.openDialog('addProduct');
+		_ns.Forms.openDialog('viewProduct');
 	};// @lock
 
 	button1.click = function button1_click (event)// @startlock
@@ -146,11 +196,6 @@ function constructor (id) {
 		}
 		
 		dataSource.query('category.ID = ' + this.getValue());
-	};// @lock
-
-	image2.click = function image2_click (event)// @startlock
-	{// @endlock
-		dataSource.removeCurrent();
 	};// @lock
 
 	matrix1.onChildrenDraw = function matrix1_onChildrenDraw (event)// @startlock
@@ -174,7 +219,6 @@ function constructor (id) {
 	WAF.addListener(this.id + "_container4", "dblclick", container4.dblclick, "WAF");
 	WAF.addListener(this.id + "_button1", "click", button1.click, "WAF");
 	WAF.addListener(this.id + "_combobox1", "change", combobox1.change, "WAF");
-	WAF.addListener(this.id + "_image2", "click", image2.click, "WAF");
 	WAF.addListener(this.id + "_matrix1", "onChildrenDraw", matrix1.onChildrenDraw, "WAF");
 	// @endregion// @endlock
 

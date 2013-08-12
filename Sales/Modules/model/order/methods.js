@@ -35,7 +35,7 @@ result.collectionMethods = {};
 result.methods = {};
 
 result.methods.buy = function buy(products){
-	debugger;
+	var res = false;
 	if(_.isArray(products) && sessionStorage.ID && products.length > 0){
 		var order = new this({
 			customer: sessionStorage.ID,
@@ -51,7 +51,11 @@ result.methods.buy = function buy(products){
 				quantity: prod.quantity
 			}).save();
 		});
+
+		res = true;
 	}
+
+	return res;
 }
 result.methods.buy.scope = 'public';
 

@@ -45,7 +45,11 @@ result.events = {};
 
 result.total = {
 	onGet: function on_get () {
-		return this.quantity*this.product.price;
+		if(this.product){
+			return this.quantity*this.product.price;
+		}
+		
+		return 0;
 	}
 };
 
