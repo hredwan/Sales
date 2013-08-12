@@ -1,0 +1,11 @@
+﻿{
+	"userID":"53F7E2195682374B8F0F828733241EF8",
+	"token":"35C3B55E1887BB4A8D68BAC0BBC84E4C",
+	"firstName":"Hamza",
+	"lastName":"HIKMAT",
+	"applicationID":"610",
+	"wakandaVersionID":"1",
+	"domain":"sales.waktest.com",
+	"remoteRepository":"http://scmadmin:scmadmin@admin.us-repo-1.waktest.com/scm/git/r610",
+	"gitFolder":"/Users/mohamedidrissi/Documents/Wakanda/Sales/.git"
+}
