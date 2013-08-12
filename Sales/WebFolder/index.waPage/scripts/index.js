@@ -34,6 +34,35 @@ WAF.onAfterInit = function onAfterInit() {// @lock
 				});
 			}
 		};
+		
+		function addCurrentProduct(nb){
+			if((typeof nb !== 'undefined' && isNaN(nb)) || nb < 1){
+				return;
+			}
+			
+			nb = nb || 1;
+			
+			var curElement = sources.product.getCurrentElement();
+			if(curElement){
+				for(var i = 0, prod; prod = cart[i]; i++){
+					if(curElement.getKey() == prod.id){
+						prod.quantity = typeof(prod.quantity) == 'number'? prod.quantity + nb: nb;
+						sources.cart.sync();
+						return;
+					}
+				}
+				
+				cart.push({
+					id: curElement.getKey(),
+					name: curElement.name.getValue(),
+					quantity: nb,
+					price: curElement.price.getValue()
+				});
+				sources.cart.sync();
+			}
+		}
+		
+		ns.addCurrentProduct = addCurrentProduct;
 	})(ns);
 // eventHandlers// @lock
 

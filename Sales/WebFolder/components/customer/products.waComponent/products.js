@@ -51,28 +51,7 @@ function constructor (id) {
 		var
 		$products	= $('#' + getHtmlId('matrix1') + ' .waf-matrix-element'),
 		$cart		= getHtmlObj('dataGrid1'),
-		cartSource	= $comp.sources.cart;
-		
-		function addCurrentProduct(){
-			var curElement = dataSource.getCurrentElement();
-			if(curElement){
-				for(var i = 0, prod; prod = $comp.sourcesVar.cart[i]; i++){
-					if(curElement.getKey() == prod.id){
-						prod.quantity = typeof(prod.quantity) == 'number'? prod.quantity + 1: 1;
-						cartSource.sync();
-						return;
-					}
-				}
-				
-				$comp.sourcesVar.cart.push({
-					id: curElement.getKey(),
-					name: curElement.name.getValue(),
-					quantity: 1,
-					price: curElement.price.getValue()
-				});
-				cartSource.sync();
-			}
-		}
+		cartSource	= sources.cart;
 		
 		function increment(inc, nb){
 			var position = cartSource.getPosition();
@@ -80,10 +59,10 @@ function constructor (id) {
 			nb = nb || 1;
 			
 			if(position >= 0){
-				$comp.sourcesVar.cart[position].quantity += (inc === false?-nb:nb);
+				cart[position].quantity += (inc === false?-nb:nb);
 			}
 			
-			if($comp.sourcesVar.cart[position].quantity <= 0){
+			if(cart[position].quantity <= 0){
 				cartSource.removeCurrent();
 			}
 			
@@ -92,7 +71,7 @@ function constructor (id) {
 				
 		$cart.droppable({
 		    drop: function(){
-		        addCurrentProduct();
+		        _ns.addCurrentProduct();
 		    }
 		});
 		
@@ -126,6 +105,7 @@ function constructor (id) {
 			return false;
 		});
 	// @region namespaceDeclaration// @startlock
+	var image2 = {};	// @image
 	var button2 = {};	// @button
 	var cartEvent = {};	// @dataSource
 	var container4 = {};	// @container
@@ -136,13 +116,17 @@ function constructor (id) {
 
 	// eventHandlers// @lock
 
+	image2.click = function image2_click (event)// @startlock
+	{// @endlock
+		_ns.addCurrentProduct();
+	};// @lock
+
 	button2.click = function button2_click (event)// @startlock
 	{// @endlock
-		debugger;
 		if(waf.directory.currentUserBelongsTo('customer')){
-			if(ds.Order.buy($comp.sourcesVar.cart)){
-				$comp.sourcesVar.cart = [];
-				$comp.sources.cart.sync();
+			if(ds.Order.buy(cart)){
+				cart = [];
+				sources.cart.sync();
 				
 				alert('Your order has been registered!');
 			}
@@ -158,14 +142,14 @@ function constructor (id) {
 	cartEvent.onCollectionChange = function cartEvent_onCollectionChange (event)// @startlock
 	{// @endlock
 		var total = 0;
-		for(var i = 0, prod; prod = $comp.sourcesVar.cart[i]; i++){
+		for(var i = 0, prod; prod = cart[i]; i++){
 			total += prod.price*prod.quantity;
 		}
 		
 		$comp.sourcesVar.total = total + ' $';
 		$comp.sources.total.sync();
 		
-		if($comp.sourcesVar.cart.length == 0){
+		if(cart.length == 0){
 			getHtmlObj('button2').hide();
 		}
 		else{
@@ -214,8 +198,9 @@ function constructor (id) {
 	};// @lock
 
 	// @region eventManager// @startlock
+	WAF.addListener(this.id + "_image2", "click", image2.click, "WAF");
 	WAF.addListener(this.id + "_button2", "click", button2.click, "WAF");
-	WAF.addListener(this.id + "_cart", "onCollectionChange", cartEvent.onCollectionChange, "WAF");
+	WAF.addListener("cart", "onCollectionChange", cartEvent.onCollectionChange, "WAF");
 	WAF.addListener(this.id + "_container4", "dblclick", container4.dblclick, "WAF");
 	WAF.addListener(this.id + "_button1", "click", button1.click, "WAF");
 	WAF.addListener(this.id + "_combobox1", "change", combobox1.change, "WAF");
