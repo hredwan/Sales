@@ -1,5 +1,5 @@
-##Welcome to Wakanda##
+Demo: http://youtu.be/l67TWk1ABnY
 
-This is the place to describe your Wakanda application.
-
-Please visit [www.wakanda.org](http://www.wakanda.org "wakanda.org") for more information.
+Passwords:
+  Customer: customer/customer
+  Administrator: admin/admin
