@@ -22,6 +22,9 @@ WAF.onAfterInit = function onAfterInit() {// @lock
 					case 'viewProduct':
 						res += 'productDetails';
 						break;
+					case 'paymentForm':
+						res += 'paypal';
+						break;	
 					default:
 						return false;
 				}

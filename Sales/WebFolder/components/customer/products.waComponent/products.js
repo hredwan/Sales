@@ -137,15 +137,8 @@ function constructor (id) {
 	button2.click = function button2_click (event)// @startlock
 	{// @endlock
 		if(waf.directory.currentUserBelongsTo('customer')){
-			if(ds.Order.buy(cart)){
-				cart = [];
-				sources.cart.sync();
-				
-				alert('Your order has been registered!');
-			}
-			else{
-				alert('An error has occured while registring the order!');
-			}
+			_ns.Forms.openDialog('paymentForm');
+			
 		}
 		else{
 			$$('login1').showLoginDialog();
